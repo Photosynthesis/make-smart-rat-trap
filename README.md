@@ -1,4 +1,3 @@
-make-smart-rat-trap
+Arduino sketch for the Smart Rat Trap Make article
 ===================
 
-Arduino sketch for the Smart Rat Trap featured in Make magazine
