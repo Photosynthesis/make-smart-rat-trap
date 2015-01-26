@@ -3,7 +3,7 @@
   
   An Arduino-powered live rat trap that outsmarts clever rodents!
   
-  More info at http://autodidacts.io/projects/make-smart-rat-trap
+  More info at http://autodidacts.io/make-smart-rat-trap
   
   This code is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -33,7 +33,7 @@ int catchPin = 12;
 int threshold = 0;
 int triggered = 0;
 
-int recalibrationInterval = 2; 
+int recalibrationInterval = 10; 
 
 long recalibrateTimer = (recalibrationInterval*60000);
 
@@ -96,7 +96,7 @@ void auto_calibrate(){
     setLed(0);
     delay(300);    
   }
-  threshold = max_value+3;
+  threshold = max_value+5;
   //Serial.print("Auto calibrated threshold:");
   //Serial.println(threshold);
   setLed(ledGreenPin);
@@ -105,17 +105,19 @@ void auto_calibrate(){
 
 void loop() {   
 
-  if(millis() > recalibrateTimer){
-    //Serial.print("Recalibrating...");
-    auto_calibrate();
-    recalibrateTimer = (millis() + (recalibrationInterval*60000));
-  }
   
   if(triggered == 0){ 
+
+    if(millis() > recalibrateTimer){
+      //Serial.print("Recalibrating...");
+      auto_calibrate();
+      recalibrateTimer = (millis() + (recalibrationInterval*60000));
+    }    
+    
     if(analogRead(sensorPin) > threshold){
       //Serial.print(analogRead(sensorPin));
       //Serial.println(" - threshold crossed");
-      delay(5);
+      delay(10);
       setLed(ledRedPin);
       if(analogRead(sensorPin) > threshold){ 
          digitalWrite(catchPin, HIGH);
